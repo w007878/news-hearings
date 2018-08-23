@@ -1,14 +1,35 @@
 # -*- coding: utf-8 -*-
 import scrapy
+from scrapy.spiders import CrawlSpider, Rule
+from scrapy.link import Link
+from scrapy.linkextractors import LinkExtractor
+from scrapy.linkextractors.htmlparser import HtmlParserLinkExtractor
+from hearings.items import HearingsItem
+    
+class A163Spider(CrawlSpider):
 
-
-class A163Spider(scrapy.Spider):
     name = '163'
-    allowed_domains = ['163.com']
-    start_urls = ['https://news.163.com/']
+    allowed_domains = ['news.163.com', 'gov.163.com']
+    start_urls = ['http://' + url for url in allowed_domains]
+    key_words = [u'听证']
+    # ['https://news.163.com/', 'https://gov.163']
+    
+    rules = (
+        Rule(LinkExtractor(allow=('[http]|[https]:\/\/[news]|[gov]\.163\.com.*', )), 
+            callback='parse_item', follow=True),
+    )
+    
+    def parse_item(self, response):
+        item = HearingsItem()
+        item['source'] = self.name
+        item['url'] = response.url
+        title = response.css('h1::text').extract()
+        if len(title) > 0:
+            item['title'] = title[0]
+        else:
+            item['title'] = None
+            
+        return item
 
-    queue = []
-    def parse(self, response):
-        print(response.xpath('//a'))
-        print('QAQ')
-        pass
+        # print(page_title)
+        
