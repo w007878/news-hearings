@@ -17,11 +17,12 @@ class HearingsPipeline(object):
     def process_item(self, item, spider):
         print(dict(item))
         
-        if item['title'] == None:
+        if item['title'] == None and item['header'] == None:
             return item
         
         for w in spider.key_words:
-            if w in item['title'] or w in item['header']:
+            if (item['title'] != None and w in item['title']) or \
+            (item['header'] != None and w in item['header']):
                 line = json.dumps(dict(item), ensure_ascii=False) + '\n'
                 self.file.write(line);
         return item
