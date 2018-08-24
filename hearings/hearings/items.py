@@ -10,6 +10,7 @@ import scrapy
 
 class HearingsItem(scrapy.Item):
     title = scrapy.Field()
+    header = scrapy.Field()
     url = scrapy.Field()
     source = scrapy.Field()
     

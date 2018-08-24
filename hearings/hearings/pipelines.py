@@ -21,7 +21,7 @@ class HearingsPipeline(object):
             return item
         
         for w in spider.key_words:
-            if w in item['title']:
+            if w in item['title'] or w in item['header']:
                 line = json.dumps(dict(item), ensure_ascii=False) + '\n'
                 self.file.write(line);
         return item

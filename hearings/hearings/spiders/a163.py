@@ -29,6 +29,8 @@ class A163Spider(CrawlSpider):
         else:
             item['title'] = None
             
+        item['header'] = response.css('title::text').extract_first()
+        
         return item
 
         # print(page_title)
