@@ -15,7 +15,7 @@ class A163Spider(CrawlSpider):
     # ['https://news.163.com/', 'https://gov.163']
     
     rules = (
-        Rule(LinkExtractor(allow=('[http]|[https]:\/\/[news]|[gov]\.163\.com.*', )), 
+        Rule(LinkExtractor(allow=[r'/photoview/.*', r'/\d{2,5}/.*']), 
             callback='parse_item', follow=True),
     )
     
