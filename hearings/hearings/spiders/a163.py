@@ -22,7 +22,7 @@ class A163Spider(CrawlSpider):
     def parse_item(self, response):
         item = HearingsItem()
         item['source'] = self.name
-        item['url'] = response.url
+        item['url'] = response.url.split('?')[0]
         title = response.css('h1::text').extract()
         if len(title) > 0:
             item['title'] = title[0]
